@@ -1,7 +1,20 @@
-# reports.py - only functions
+# Report functions
 
 
 def separate_data(file_name):
+    '''
+    In the data file every line contains properties of a game.
+    Properties are separated by a tab character and
+    lines are separated by line break characters.
+
+    The order of properties:
+
+    0 = Title
+    1 = Total copies sold (million)
+    2 = Release date (year)
+    3 = Genre
+    4 = Publisher
+    '''
     with open(file_name, "r") as f:
         read_game_list = f.readlines()
         game_list = [game.replace("\n", "").split("\t") for game in read_game_list]
@@ -37,6 +50,7 @@ def get_line_number_by_title(file_name, title):
 
 
 def alphabetical_order(list_of_strings):
+    '''Bubble sorting with strings'''
     length = len(list_of_strings) - 1
     sorted = False
     while not sorted:

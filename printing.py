@@ -1,4 +1,4 @@
-# printing.py - print reports
+# Print function
 import reports
 
 
