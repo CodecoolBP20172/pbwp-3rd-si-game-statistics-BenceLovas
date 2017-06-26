@@ -9,15 +9,18 @@ def separate_data(file_name):
 
     The order of properties:
 
-    0 = Title
-    1 = Total copies sold (million)
-    2 = Release date (year)
-    3 = Genre
-    4 = Publisher
+    0 = Title (str)
+    1 = Total copies sold (million) (float)
+    2 = Release date (year) (int)
+    3 = Genre (str)
+    4 = Publisher (str)
     '''
     with open(file_name, "r") as f:
         read_game_list = f.readlines()
-        game_list = [game.replace("\n", "").split("\t") for game in read_game_list]
+        game_list = [game.strip().split("\t") for game in read_game_list]
+        for game in game_list:
+            game[1] = float(game[1])
+            game[2] = int(game[2])
     return game_list
 
 
@@ -28,12 +31,12 @@ def count_games(file_name):
 
 def decide(file_name, year):
     game_list = separate_data(file_name)
-    return bool([game[2] for game in game_list if game[2] == str(year)])
+    return bool([game[2] for game in game_list if game[2] == year])
 
 
 def get_latest(file_name):
     game_list = separate_data(file_name)
-    return sorted(game_list, key=lambda x: int(x[2]))[-1][0]
+    return sorted(game_list, key=lambda x: x[2])[-1][0]
 
 
 def count_by_genre(file_name, genre):
@@ -45,7 +48,7 @@ def get_line_number_by_title(file_name, title):
     game_list = separate_data(file_name)
     line_number = [index for index in range(len(game_list)) if title in game_list[index]]
     if line_number:
-        return int(line_number[0]) + 1
+        return line_number[0] + 1
     raise ValueError("Title not found.")
 
 
@@ -74,7 +77,7 @@ def get_genres(file_name):
 
 def when_was_top_sold_fps(file_name):
     game_list = separate_data(file_name)
-    data = {int(game[2]): float(game[1]) for game in game_list if game[3] == "First-person shooter"}
+    data = {game[2]: game[1] for game in game_list if game[3] == "First-person shooter"}
     if data:
         return max(data.keys(), key=lambda x: data[x])
-    raise ValueError("There's no FPS games.")
+    raise ValueError("There's no FPS game.")
