@@ -42,7 +42,7 @@ def decide(file_name, year):
 
 def get_latest(file_name):
     game_list = separate_data(file_name)
-    return sorted(game_list, key=lambda x: x[2])[-1][0]
+    return sorted(game_list, key=lambda x: x[2], reverse=True)[0][0]
 
 
 def count_by_genre(file_name, genre):
