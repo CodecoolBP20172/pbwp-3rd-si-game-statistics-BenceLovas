@@ -19,8 +19,14 @@ def separate_data(file_name):
         read_game_list = f.readlines()
         game_list = [game.strip().split("\t") for game in read_game_list]
         for game in game_list:
-            game[1] = float(game[1])
-            game[2] = int(game[2])
+            try:
+                game[1] = float(game[1])
+            except ValueError:
+                raise ValueError("Total copies sold value: {}, is not a float.".format(game[1]))
+            try:
+                game[2] = int(game[2])
+            except ValueError:
+                raise ValueError("Release date value: {}, is not an intiger.".format(game[2]))
     return game_list
 
 
